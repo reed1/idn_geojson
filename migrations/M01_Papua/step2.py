@@ -46,6 +46,8 @@ def main():
             new_feat = {
                 **kab_feat,
                 'properties': {
+                    'ADM0_PCODE': 'ID',
+                    'ADM0_EN': 'Indonesia',
                     'ADM1_PCODE': kp['b']['prov_kode'],
                     'ADM1_EN': kp['b']['prov_nama'],
                     'ADM2_PCODE': kp['b']['kab_kode'],
@@ -53,19 +55,36 @@ def main():
                 }
             }
             kab_features.append(new_feat)
-            kab_mapping[kab_feat['properties']['ADM2_PCODE']] = kp['b']['prov_kode']
+            kab_mapping[kab_feat['properties']['ADM2_PCODE']] = kp['b']
         with open(f'box/result_maps/idn_ID{prov_kode}.json', 'w') as f:
             json.dump({
                 'type': 'FeatureCollection',
                 'features': kab_features
             }, f)
 
+    with open('box/kab_mapping.csv', 'w') as f:
+        w = csv.writer(f)
+        w.writerow(['kode_old', 'kode_new'])
+        for k, v in kab_mapping.items():
+            if k != 'ID' + v['kab_kode']:
+                w.writerow([k, 'ID' + v['kab_kode']])
 
-
-
-
-
-
+    with open(root + '/maps/idn_admin2.json') as f:
+        adm2 = json.load(f)
+    for feat in adm2['features']:
+        kab_kode = feat['properties']['ADM2_PCODE']
+        if kab_kode in kab_mapping:
+            kab_row = kab_mapping[kab_kode]
+            feat['properties'] = {
+                'ADM0_PCODE': 'ID',
+                'ADM0_EN': 'Indonesia',
+                'ADM1_PCODE': kab_row['prov_kode'],
+                'ADM1_EN': kab_row['prov_nama'],
+                'ADM2_PCODE': kab_row['kab_kode'],
+                'ADM2_EN': kab_row['kab_nama'],
+            }
+    with open('box/result_maps/idn_admin2.json', 'w') as f:
+        json.dump(adm2, f)
 
 
 if __name__ == '__main__':

@@ -27,7 +27,7 @@ def main():
         }
 
     os.makedirs('box/result_maps', exist_ok=True)
-    with open('box/result_maps/idn_admin1.geojson', 'w') as f:
+    with open('box/result_maps/idn_admin1.json', 'w') as f:
         json.dump(geo, f)
 
 if __name__ == '__main__':
