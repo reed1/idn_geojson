@@ -48,9 +48,9 @@ def main():
                 'properties': {
                     'ADM0_PCODE': 'ID',
                     'ADM0_EN': 'Indonesia',
-                    'ADM1_PCODE': kp['b']['prov_kode'],
+                    'ADM1_PCODE': 'ID' + kp['b']['prov_kode'],
                     'ADM1_EN': kp['b']['prov_nama'],
-                    'ADM2_PCODE': kp['b']['kab_kode'],
+                    'ADM2_PCODE': 'ID' + kp['b']['kab_kode'],
                     'ADM2_EN': kp['b']['kab_nama'],
                 }
             }
@@ -78,9 +78,9 @@ def main():
             feat['properties'] = {
                 'ADM0_PCODE': 'ID',
                 'ADM0_EN': 'Indonesia',
-                'ADM1_PCODE': kab_row['prov_kode'],
+                'ADM1_PCODE': 'ID' + kab_row['prov_kode'],
                 'ADM1_EN': kab_row['prov_nama'],
-                'ADM2_PCODE': kab_row['kab_kode'],
+                'ADM2_PCODE': 'ID' + kab_row['kab_kode'],
                 'ADM2_EN': kab_row['kab_nama'],
             }
     with open('box/result_maps/idn_admin2.json', 'w') as f:
